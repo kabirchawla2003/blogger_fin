@@ -1,0 +1,237 @@
+/* src/app/globals.css */
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  html {
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+  
+  .font-serif {
+    font-family: var(--font-crimson), Georgia, serif;
+  }
+}
+
+@layer components {
+  .prose-custom {
+    @apply prose prose-lg prose-earth-green max-w-none;
+    @apply prose-headings:font-serif prose-headings:text-earth-green-700;
+    @apply prose-p:text-earth-green-600 prose-p:leading-relaxed;
+    @apply prose-a:text-terracotta prose-a:no-underline hover:prose-a:underline;
+    @apply prose-blockquote:border-l-sage prose-blockquote:text-earth-green-600;
+    @apply prose-code:bg-earth-green-50 prose-code:text-terracotta prose-code:px-1 prose-code:rounded;
+  }
+  
+  .btn-primary {
+    @apply bg-earth-green-600 hover:bg-earth-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-organic-brown-100 hover:bg-organic-brown-200 text-organic-brown-800 px-6 py-3 rounded-lg font-medium transition-colors;
+  }
+  
+  .input-field {
+    @apply border border-earth-green-200 rounded-lg px-4 py-3 focus:outline-none focus:border-earth-green-500 focus:ring-2 focus:ring-earth-green-200 transition-colors;
+  }
+
+  /* Additional utility classes for the blog */
+  .container-blog {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:prose-8;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-earth-green-600 to-sage bg-clip-text text-transparent;
+  }
+
+  .prose-blog {
+    @apply prose prose-lg prose-earth-green max-w-none;
+    @apply prose-headings:font-serif prose-headings:text-earth-green-800;
+    @apply prose-h1:text-4xl prose-h1:mb-6;
+    @apply prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4;
+    @apply prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3;
+    @apply prose-p:text-earth-green-700 prose-p:leading-relaxed prose-p:mb-6;
+    @apply prose-a:text-terracotta prose-a:no-underline hover:prose-a:underline;
+    @apply prose-strong:text-earth-green-800;
+    @apply prose-blockquote:border-l-4 prose-blockquote:border-sage prose-blockquote:text-earth-green-600 prose-blockquote:italic;
+    @apply prose-code:bg-earth-green-50 prose-code:text-terracotta prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm;
+    @apply prose-pre:bg-earth-green-800 prose-pre:text-warm-cream;
+    @apply prose-img:rounded-lg prose-img:shadow-md;
+    @apply prose-ul:text-earth-green-700;
+    @apply prose-ol:text-earth-green-700;
+    @apply prose-li:marker:text-sage;
+  }
+
+  /* Animation utilities */
+  .fade-in {
+    @apply opacity-0 animate-[fadeIn_0.6s_ease-in-out_forwards];
+  }
+
+  .slide-up {
+    @apply translate-y-4 opacity-0 animate-[slideUp_0.6s_ease-out_forwards];
+  }
+
+  /* Focus states for accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-earth-green-500 focus:ring-offset-2 focus:ring-offset-warm-cream;
+  }
+
+  /* Admin panel specific styles */
+  .admin-card {
+    @apply bg-white rounded-xl p-6 shadow-md border border-earth-green-100;
+  }
+
+  .admin-button {
+    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm transition-colors focus-ring;
+  }
+
+  /* Form elements */
+  .form-group {
+    @apply space-y-2;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-earth-green-700;
+  }
+
+  .form-input {
+    @apply input-field w-full;
+  }
+
+  .form-textarea {
+    @apply input-field w-full resize-none;
+  }
+
+  .form-select {
+    @apply input-field w-full appearance-none bg-white;
+  }
+
+  /* Navigation styles */
+  .nav-link {
+    @apply text-earth-green-700 hover:text-terracotta transition-colors duration-200 font-medium;
+  }
+
+  .nav-link-active {
+    @apply nav-link text-terracotta;
+  }
+
+  /* Comment styles */
+  .comment-card {
+    @apply bg-white rounded-lg p-4 shadow-sm border border-earth-green-100;
+  }
+
+  /* Tag styles */
+  .tag {
+    @apply inline-block bg-earth-green-100 text-earth-green-700 px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .tag-clickable {
+    @apply tag hover:bg-earth-green-200 cursor-pointer transition-colors;
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(1rem);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Text utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Custom scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.earth-green.400') theme('colors.earth-green.100');
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: theme('colors.earth-green.100');
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: theme('colors.earth-green.400');
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.earth-green.500');
+  }
+
+  /* Print styles */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    
+    .print-break-inside-avoid {
+      break-inside: avoid;
+    }
+  }
+
+  /* Dark mode support (if needed in future) */
+  @media (prefers-color-scheme: dark) {
+    .dark\:bg-earth-green-900 {
+      background-color: theme('colors.earth-green.900');
+    }
+    
+    .dark\:text-warm-cream {
+      color: theme('colors.warm-cream');
+    }
+  }
+}
+
+/* Global base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased;
+}
+
+/* Selection colors */
+::selection {
+  @apply bg-sage/30 text-earth-green-800;
+}
+
+::-moz-selection {
+  @apply bg-sage/30 text-earth-green-800;
+}
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  @apply outline-2 outline-earth-green-500 outline-offset-2;
+}
+
+/* Remove focus outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}

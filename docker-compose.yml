@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  blog:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+      - ./public:/app/public
+    environment:
+      - NODE_ENV=production
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=your_secure_password
+      - NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+    restart: unless-stopped

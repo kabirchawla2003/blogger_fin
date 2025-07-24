@@ -1,27 +1,135 @@
+/* src/app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  .font-serif {
+    font-family: var(--font-crimson), Georgia, serif;
+  }
+
+  body {
+    @apply antialiased;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .prose-custom {
+    @apply prose prose-lg max-w-none;
+    @apply prose-headings:font-serif prose-headings:text-earth-green-700;
+    @apply prose-p:text-earth-green-600 prose-p:leading-relaxed;
+    @apply prose-a:text-terracotta prose-a:no-underline hover:prose-a:underline;
+    @apply prose-blockquote:border-l-4 prose-blockquote:border-sage prose-blockquote:text-earth-green-600;
+    @apply prose-code:bg-earth-green-50 prose-code:text-terracotta prose-code:px-1 prose-code:rounded;
+    @apply prose-strong:text-earth-green-800;
+    @apply prose-em:text-earth-green-700;
+    @apply prose-ul:text-earth-green-700;
+    @apply prose-ol:text-earth-green-700;
+    @apply prose-li:marker:text-sage;
+  }
+  
+  .btn-primary {
+    @apply bg-earth-green-600 hover:bg-earth-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-organic-brown-100 hover:bg-organic-brown-200 text-organic-brown-800 px-6 py-3 rounded-lg font-medium transition-colors;
+  }
+  
+  .input-field {
+    @apply border border-earth-green-200 rounded-lg px-4 py-3 focus:outline-none focus:border-earth-green-500 focus:ring-2 focus:ring-earth-green-200 transition-colors;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300;
+  }
+
+  .nav-link {
+    @apply text-earth-green-700 hover:text-terracotta transition-colors duration-200 font-medium;
+  }
+
+  .nav-link-active {
+    @apply nav-link text-terracotta;
+  }
+
+  .tag {
+    @apply inline-block bg-earth-green-100 text-earth-green-700 px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .tag-clickable {
+    @apply tag hover:bg-earth-green-200 cursor-pointer transition-colors;
+  }
+
+  .admin-card {
+    @apply bg-white rounded-xl p-6 shadow-md border border-earth-green-100;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-earth-green-700 mb-2;
+  }
+
+  .form-input {
+    @apply input-field w-full;
+  }
+
+  .form-textarea {
+    @apply input-field w-full resize-none;
+  }
+
+  .comment-card {
+    @apply bg-white rounded-lg p-4 shadow-sm border border-earth-green-100;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.earth-green.400') theme('colors.earth-green.100');
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: theme('colors.earth-green.100');
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: theme('colors.earth-green.400');
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.earth-green.500');
+  }
+}
+
+/* Global styles */
+::selection {
+  @apply bg-sage/30 text-earth-green-800;
+}
+
+::-moz-selection {
+  @apply bg-sage/30 text-earth-green-800;
+}
+
+:focus-visible {
+  @apply outline-2 outline-earth-green-500 outline-offset-2;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
 }
