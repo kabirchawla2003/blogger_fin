@@ -4,8 +4,6 @@ import path from 'path';
 import { BlogPost, Comment, SiteSettings, Analytics } from './types';
 import { validateBlogPost, validateComment, validateSiteSettings } from './validation';
 import { sanitizeBlogPost, sanitizeComment, sanitizeSiteSettings } from './sanitization';
-// REMOVE this import to break circular dependency
-// import { BackupManager } from './backup';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const POSTS_FILE = path.join(DATA_DIR, 'posts.json');
@@ -56,9 +54,6 @@ initializeFile(POSTS_FILE, []);
 initializeFile(COMMENTS_FILE, []);
 initializeFile(SETTINGS_FILE, defaultSettings);
 initializeFile(ANALYTICS_FILE, []);
-
-// REMOVE this line - it causes circular dependency
-// BackupManager.scheduleBackup();
 
 export class DataStorage {
   // Helper method to ensure valid JSON file with validation
@@ -212,7 +207,7 @@ export class DataStorage {
     }
   }
 
-  // Analytics methods (existing implementation)
+  // Analytics methods
   static async getAnalytics(): Promise<Analytics[]> {
     try {
       this.ensureValidJsonFile(ANALYTICS_FILE, []);
@@ -325,7 +320,32 @@ export class DataStorage {
     };
   }
 
-  // Backup integration methods - these import BackupManager dynamically to avoid circular dependency
+  // Cleanup orphaned comments
+  static async cleanupOrphanedComments(): Promise<{ removed: number; remaining: number }> {
+    try {
+      const posts = await this.getPosts();
+      const comments = await this.getComments();
+      const postIds = new Set(posts.map(post => post.id));
+      
+      const validComments = comments.filter(comment => postIds.has(comment.postId));
+      const orphanedCount = comments.length - validComments.length;
+      
+      if (orphanedCount > 0) {
+        await this.saveComments(validComments);
+        console.log(`🧹 Cleaned up ${orphanedCount} orphaned comments`);
+      }
+      
+      return {
+        removed: orphanedCount,
+        remaining: validComments.length,
+      };
+    } catch (error) {
+      console.error('Error cleaning up orphaned comments:', error);
+      throw error;
+    }
+  }
+
+  // Backup integration methods - using dynamic imports to avoid circular dependency
   static async createBackup(): Promise<string> {
     const { BackupManager } = await import('./backup');
     return BackupManager.createBackup();
@@ -339,5 +359,50 @@ export class DataStorage {
   static async listBackups() {
     const { BackupManager } = await import('./backup');
     return BackupManager.listBackups();
+  }
+
+  // Health check method
+  static async healthCheck(): Promise<{ status: string; files: any }> {
+    const fileStatus = {
+      posts: false,
+      comments: false,
+      settings: false,
+      analytics: false
+    };
+
+    try {
+      await this.getPosts();
+      fileStatus.posts = true;
+    } catch (error) {
+      console.error('Posts file health check failed:', error);
+    }
+
+    try {
+      await this.getComments();
+      fileStatus.comments = true;
+    } catch (error) {
+      console.error('Comments file health check failed:', error);
+    }
+
+    try {
+      await this.getSettings();
+      fileStatus.settings = true;
+    } catch (error) {
+      console.error('Settings file health check failed:', error);
+    }
+
+    try {
+      await this.getAnalytics();
+      fileStatus.analytics = true;
+    } catch (error) {
+      console.error('Analytics file health check failed:', error);
+    }
+
+    const allHealthy = Object.values(fileStatus).every(status => status === true);
+    
+    return {
+      status: allHealthy ? 'healthy' : 'degraded',
+      files: fileStatus
+    };
   }
 }

@@ -77,28 +77,43 @@ export default function PostManager() {
     }
   };
 
-  const deletePost = async (postId: string) => {
-    if (!confirm('Are you sure you want to delete this post?')) return;
+  // In src/components/admin/PostManager.tsx - update the deletePost function:
 
-    try {
-      const response = await fetch(`/api/admin/posts/${postId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': localStorage.getItem('adminAuth') || '',
-        },
-      });
+const deletePost = async (postId: string) => {
+  if (!confirm('Are you sure you want to delete this post? This will also delete all associated comments.')) return;
 
-      if (response.ok) {
-        setPosts(posts.filter(post => post.id !== postId));
-        alert('Post deleted successfully!');
-      } else {
-        alert('Failed to delete post');
+  try {
+    const response = await fetch(`/api/admin/posts/${postId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': localStorage.getItem('adminAuth') || '',
+      },
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      setPosts(posts.filter(post => post.id !== postId));
+      
+      // Enhanced success message
+      let message = `✅ Post "${result.postTitle}" deleted successfully!`;
+      if (result.commentsDeleted > 0) {
+        message += `\n📝 ${result.commentsDeleted} associated comments also deleted.`;
       }
-    } catch (error) {
-      console.error('Error deleting post:', error);
-      alert('Error deleting post');
+      if (result.imageDeleted) {
+        message += `\n🖼️ Featured image deleted from server.`;
+      }
+      
+      alert(message);
+    } else {
+      const error = await response.json();
+      alert(`❌ Failed to delete post: ${error.error}`);
     }
-  };
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    alert('❌ Error deleting post');
+  }
+};
+
 
   // src/components/admin/PostManager.tsx
 // Find the togglePostStatus function and update it:
