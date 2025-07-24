@@ -1,6 +1,8 @@
+// src/app/layout.tsx
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Crimson_Text } from 'next/font/google';
+import { initializeBackupSystem } from '@/lib/init';
 
 const inter = Inter({ 
   subsets: ['latin'], 
@@ -17,9 +19,12 @@ const crimsonText = Crimson_Text({
 });
 
 export const metadata: Metadata = {
-  title: "Author's Corner",
-  description: 'Where stories come to life',
+  title: "Ghar nari",
+  description: 'जहाँ कहानियाँ जिंदगी बन जाती हैं',
 };
+
+// Initialize backup system
+initializeBackupSystem();
 
 export default function RootLayout({
   children,
@@ -28,8 +33,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${crimsonText.variable}`}>
-      <body className="bg-warm-cream text-earth-green-800 font-sans antialiased">
-        {children}
+      <body className="font-sans antialiased relative">
+        {/* Global Background */}
+        <div className="fixed inset-0 z-0">
+          <div className="absolute inset-0 bg-warm-cream/90"></div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10">
+          {children}
+        </div>
       </body>
     </html>
   );

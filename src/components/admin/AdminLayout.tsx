@@ -1,13 +1,14 @@
-// components/admin/AdminLayout.tsx
+// src/components/admin/AdminLayout.tsx
 'use client';
 
 import { useState } from 'react';
-import { PenTool, FileText, Settings, BarChart3, MessageSquare, LogOut } from 'lucide-react';
+import { PenTool, FileText, Settings, BarChart3, MessageSquare, Database, LogOut } from 'lucide-react';
 import PostEditor from './PostEditor';
 import PostManager from './PostManager';
 import SiteSettings from './SiteSettings';
 import Analytics from './Analytics';
 import CommentManager from './CommentManager';
+import BackupManager from './BackupManager'; // NEW IMPORT
 
 export default function AdminLayout() {
   const [activeTab, setActiveTab] = useState('editor');
@@ -22,6 +23,7 @@ export default function AdminLayout() {
     { id: 'posts', label: 'Manage Posts', icon: FileText },
     { id: 'comments', label: 'Comments', icon: MessageSquare },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'backup', label: 'Backup', icon: Database }, // NEW TAB
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
@@ -34,7 +36,7 @@ export default function AdminLayout() {
             <div className="flex items-center space-x-2">
               <PenTool className="h-8 w-8 text-earth-green-600" />
               <h1 className="font-serif text-2xl font-bold text-earth-green-800">
-                Author's Sanctuary
+                Ghar nari Admin
               </h1>
             </div>
 
@@ -76,6 +78,7 @@ export default function AdminLayout() {
           {activeTab === 'posts' && <PostManager />}
           {activeTab === 'comments' && <CommentManager />}
           {activeTab === 'analytics' && <Analytics />}
+          {activeTab === 'backup' && <BackupManager />} {/* NEW TAB CONTENT */}
           {activeTab === 'settings' && <SiteSettings />}
         </div>
       </div>
