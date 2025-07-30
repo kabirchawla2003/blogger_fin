@@ -2,13 +2,14 @@
 import { z } from 'zod';
 
 // Blog Post Validation Schema
+
 export const BlogPostSchema = z.object({
   id: z.string().uuid().optional(),
   title: z.string().min(1, "Title is required").max(200, "Title too long"),
-  slug: z.string().min(1, "Slug is required").max(100, "Slug too long")
-    .regex(/^[a-z0-9-]+$/, "Slug must contain only lowercase letters, numbers, and hyphens"),
+  slug: z.string().min(1, "Slug is required").max(500, "Slug too long")
+    .regex(/^[A-Za-z0-9\-._~%!$&'()*+,;=:@]+$/, "Slug contains invalid characters"),
   content: z.string().min(1, "Content is required").max(50000, "Content too long"),
-  excerpt: z.string().min(1, "Excerpt is required").max(500, "Excerpt too long"),
+  excerpt: z.string().max(500, "Excerpt too long").optional().or(z.literal("")), // Made optional
   author: z.string().min(1, "Author is required").max(100, "Author name too long"),
   publishedAt: z.string().datetime().nullable(),
   createdAt: z.string().datetime().optional(),
@@ -23,6 +24,7 @@ export const BlogPostSchema = z.object({
   readTime: z.number().int().min(0).default(0),
   isDraft: z.boolean().default(true),
 });
+
 
 // Comment Validation Schema
 export const CommentSchema = z.object({

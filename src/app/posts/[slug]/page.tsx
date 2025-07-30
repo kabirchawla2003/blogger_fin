@@ -19,7 +19,7 @@ interface Props {
   }>;
 }
 
-// 🔥 HELPER FUNCTION - ADD THIS RIGHT HERE (after imports, before other functions)
+// Helper function for safe date formatting
 function formatPostDate(publishedAt: string | null, createdAt: string): string {
   // Try publishedAt first
   if (publishedAt && publishedAt.trim() !== '') {
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: Props) {
   }
 
   return {
-    title: `${post.title} | Author's Corner`,
+    title: `${post.title} | घर नारी`,
     description: post.excerpt,
     openGraph: {
       title: post.title,
@@ -78,7 +78,12 @@ async function trackView(postId: string) {
 }
 
 export default async function PostPage({ params }: Props) {
-  const { slug } = await params;
+  const encodedSlug = (await params).slug;
+  const slug = decodeURIComponent(encodedSlug);
+  if (!slug) {
+    notFound();
+  }
+
   const posts = await DataStorage.getPosts();
   const post = posts.find(p => p.slug === slug && p.status === 'published');
   
@@ -109,7 +114,6 @@ export default async function PostPage({ params }: Props) {
               <span>Back to All Posts</span>
             </Link>
 
-            {/* 🔥 UPDATED JSX SECTION - REPLACE THE PROBLEMATIC DATE SECTION */}
             <div className="flex flex-wrap items-center gap-4 text-sm text-earth-green-500 mb-6">
               <span className="flex items-center space-x-1">
                 <Calendar className="h-4 w-4" />
@@ -135,24 +139,13 @@ export default async function PostPage({ params }: Props) {
               {post.title}
             </h1>
 
-            <p className="text-xl text-earth-green-600 leading-relaxed mb-8">
-              {post.excerpt}
-            </p>
-
-            {post.tags.length > 0 && (
-              <div className="flex items-center space-x-2 mb-8">
-                <Tag className="h-4 w-4 text-earth-green-400" />
-                <div className="flex flex-wrap gap-2">
-                  {post.tags.map(tag => (
-                    <span
-                      key={tag}
-                      className="bg-earth-green-100 text-earth-green-700 px-2 py-1 rounded text-sm"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
+            {/* 🔥 NEW: Only show excerpt if it exists */}
+            {post.excerpt && post.excerpt.trim() && (
+              <blockquote className="excerpt-quote mb-8">
+                <p className="text-xl text-earth-green-700 leading-relaxed italic font-medium mb-0 relative z-10">
+                  {post.excerpt}
+                </p>
+              </blockquote>
             )}
 
             <ShareButton title={post.title} />
@@ -205,7 +198,7 @@ export default async function PostPage({ params }: Props) {
                   {post.author}
                 </h3>
                 <p className="text-earth-green-600">
-                  A storyteller at heart, weaving narratives that resonate with the soul.
+                  दिल से एक कहानीकार, जीवन के खूबसूरत पलों से कहानियाँ बुनता हूं।
                 </p>
               </div>
             </div>
@@ -217,7 +210,7 @@ export default async function PostPage({ params }: Props) {
           <section className="bg-white py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="font-serif text-3xl font-bold text-earth-green-800 mb-8 text-center">
-                Related Stories
+                संबंधित कहानियाँ
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -234,11 +227,14 @@ export default async function PostPage({ params }: Props) {
                         {relatedPost.title}
                       </Link>
                     </h3>
-                    <p className="text-earth-green-600 text-sm mb-4 line-clamp-3">
-                      {relatedPost.excerpt}
-                    </p>
+                    
+                    <blockquote className="border-l-4 border-sage bg-earth-green-50 pl-4 pr-3 py-3 mb-4 rounded-r-md">
+                      <p className="text-earth-green-600 text-sm italic mb-0 line-clamp-3">
+                        {relatedPost.excerpt}
+                      </p>
+                    </blockquote>
+                    
                     <div className="flex items-center justify-between text-xs text-earth-green-500">
-                      {/* 🔥 ALSO UPDATE RELATED POSTS DATE */}
                       <span>{formatPostDate(relatedPost.publishedAt, relatedPost.createdAt)}</span>
                       <span>{relatedPost.readTime || 0} min read</span>
                     </div>

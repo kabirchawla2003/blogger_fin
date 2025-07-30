@@ -19,7 +19,7 @@ const crimsonText = Crimson_Text({
 });
 
 export const metadata: Metadata = {
-  title: "Ghar nari",
+  title: "घर नारी",
   description: 'जहाँ कहानियाँ जिंदगी बन जाती हैं',
 };
 

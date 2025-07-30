@@ -17,10 +17,10 @@ export default async function RecentPosts() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-serif text-4xl font-bold text-earth-green-800 mb-4">
-            Recent Stories
+            हाल की कहानियाँ
           </h2>
           <p className="text-lg text-earth-green-600 max-w-2xl mx-auto">
-            Dive into the latest tales from my literary journey
+            मेरी साहित्यिक यात्रा की नवीनतम कहानियों में गोता लगाएं
           </p>
         </div>
 
@@ -51,12 +51,12 @@ export default async function RecentPosts() {
                   
                   <span className="flex items-center space-x-1">
                     <Clock className="h-4 w-4" />
-                    <span>{post.readTime} min read</span>
+                    <span>{post.readTime || 0} min read</span>
                   </span>
                   
                   <span className="flex items-center space-x-1">
                     <Eye className="h-4 w-4" />
-                    <span>{post.views}</span>
+                    <span>{post.views || 0}</span>
                   </span>
                 </div>
 
@@ -66,9 +66,14 @@ export default async function RecentPosts() {
                   </Link>
                 </h3>
 
-                <p className="text-earth-green-600 mb-4 line-clamp-3">
-                  {post.excerpt}
-                </p>
+                {/* 🔥 NEW: Only show excerpt if it exists */}
+                {post.excerpt && post.excerpt.trim() && (
+                  <blockquote className="excerpt-simple mb-4">
+                    <p className="text-earth-green-600 text-sm italic mb-0 line-clamp-3">
+                      {post.excerpt}
+                    </p>
+                  </blockquote>
+                )}
 
                 <div className="flex items-center justify-between">
                   <span className="inline-block bg-sage/20 text-sage px-3 py-1 rounded-full text-sm font-medium">
@@ -79,7 +84,7 @@ export default async function RecentPosts() {
                     href={`/posts/${post.slug}`}
                     className="text-terracotta hover:text-terracotta/80 font-medium text-sm transition-colors"
                   >
-                    Read More →
+                    और पढ़ें →
                   </Link>
                 </div>
               </div>
@@ -90,14 +95,14 @@ export default async function RecentPosts() {
         {recentPosts.length === 0 && (
           <div className="text-center py-20">
             <p className="text-earth-green-600 text-lg">
-              No posts yet. Check back soon for new stories!
+              अभी तक कोई पोस्ट नहीं है। नई कहानियों के लिए जल्द ही वापस आएं!
             </p>
           </div>
         )}
 
         <div className="text-center mt-12">
           <Link href="/all-posts" className="btn-primary">
-            View All Posts
+            सभी पोस्ट देखें
           </Link>
         </div>
       </div>

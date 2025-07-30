@@ -18,7 +18,7 @@ export default async function Hero() {
           priority
         />
         {/* Translucent overlay */}
-        <div className="absolute inset-0 bg-warm-cream/85 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-warm-cream/60 backdrop-blur-sm"></div>
       </div>
       
       <div className="relative max-w-4xl mx-auto px-4 text-center z-10">
@@ -36,14 +36,14 @@ export default async function Hero() {
         </div>
 
         <h1 className="font-serif text-5xl md:text-7xl font-bold text-earth-green-800 mb-6 drop-shadow-md">
-          Ghar nari
+          घर नारी
         </h1>
         
-        <p className="text-xl md:text-2xl text-earth-green-700 mb-8 font-light drop-shadow-sm">
+        <p className="text-xl md:text-2xl text-earth-green-600 mb-8 font-bold">
           {settings.tagline}
         </p>
         
-        <div className="prose prose-lg mx-auto text-earth-green-700 mb-12">
+        <div className="prose prose-lg mx-auto text-earth-green-700 mb-12 font-bold">
           <p className="text-lg leading-relaxed drop-shadow-sm">
             {settings.welcomeMessage}
           </p>

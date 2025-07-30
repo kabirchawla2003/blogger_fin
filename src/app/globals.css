@@ -26,7 +26,7 @@
     @apply prose-headings:font-serif prose-headings:text-earth-green-700;
     @apply prose-p:text-earth-green-600 prose-p:leading-relaxed;
     @apply prose-a:text-terracotta prose-a:no-underline hover:prose-a:underline;
-    @apply prose-blockquote:border-l-4 prose-blockquote:border-sage prose-blockquote:text-earth-green-600;
+    @apply prose-blockquote:border-l-4 prose-blockquote:border-sage prose-blockquote:bg-earth-green-50 prose-blockquote:pl-6 prose-blockquote:pr-4 prose-blockquote:py-4 prose-blockquote:rounded-r-lg prose-blockquote:italic prose-blockquote:font-medium prose-blockquote:text-earth-green-700;
     @apply prose-code:bg-earth-green-50 prose-code:text-terracotta prose-code:px-1 prose-code:rounded;
     @apply prose-strong:text-earth-green-800;
     @apply prose-em:text-earth-green-700;
@@ -85,6 +85,21 @@
 
   .comment-card {
     @apply bg-white rounded-lg p-4 shadow-sm border border-earth-green-100;
+  }
+
+  /* Enhanced excerpt blockquote styling */
+  .excerpt-quote {
+    @apply border-l-4 border-sage bg-gradient-to-r from-earth-green-50 to-transparent pl-8 pr-6 py-6 rounded-r-lg shadow-sm relative;
+  }
+
+  .excerpt-quote::before {
+    content: '"';
+    @apply absolute left-2 top-4 text-sage text-6xl leading-none opacity-30 font-serif;
+  }
+
+  /* Standard blockquote for smaller excerpts */
+  .excerpt-simple {
+    @apply border-l-4 border-sage bg-earth-green-50 pl-4 pr-3 py-3 rounded-r-md;
   }
 }
 

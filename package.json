@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sindresorhus/transliterate": "^1.6.0",
     "date-fns": "^4.1.0",
     "dompurify": "^3.2.6",
     "jsdom": "^26.1.0",
@@ -19,6 +20,7 @@
     "react-markdown": "^10.1.0",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.1",
+    "transliteration": "^2.3.5",
     "uuid": "^11.1.0",
     "zod": "^4.0.8"
   },

@@ -18,12 +18,12 @@ if (!fs.existsSync(DATA_DIR)) {
 
 // Default data structures
 const defaultSettings: SiteSettings = {
-  siteName: "Ghar nari",
+  siteName: "घर नारी",
   tagline: "जहाँ कहानियाँ जिंदगी बन जाती हैं",
-  welcomeMessage: "Welcome to my literary sanctuary - a space where life's stories unfold",
-  aboutSection: "I'm a passionate writer exploring the depths of human experience through words, capturing the essence of life, society, and the stories that connect us all.",
-  authorName: "Author Name",
-  authorBio: "A storyteller at heart, weaving narratives from life's beautiful moments - from home to heart, from society to soul.",
+  welcomeMessage: "मेरे साहित्यिक अभयारण्य में आपका स्वागत है - एक ऐसी जगह जहाँ जीवन की कहानियाँ सामने आती हैं",
+  aboutSection: "मैं एक भावुक लेखक हूं जो शब्दों के माध्यम से मानवीय अनुभव की गहराई का अन्वेषण करता हूं, जीवन, समाज और उन कहानियों का सार कैप्चर करता हूं जो हम सभी को जोड़ती हैं।",
+  authorName: "लेखक का नाम",
+  authorBio: "दिल से एक कहानीकार, जीवन के खूबसूरत पलों से कहानियाँ बुनता हूं - घर से दिल तक, समाज से आत्मा तक।",
   socialLinks: {}
 };
 

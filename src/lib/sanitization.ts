@@ -67,7 +67,7 @@ export function sanitizeBlogPost(post: any) {
   return {
     ...post,
     title: sanitizeText(post.title),
-    slug: sanitizeText(post.slug).toLowerCase().replace(/[^a-z0-9-]/g, ''),
+    slug: sanitizeText(post.slug), // Simple text sanitization, don't decode or modify
     content: sanitizeMarkdown(post.content),
     excerpt: sanitizeText(post.excerpt),
     author: sanitizeText(post.author),

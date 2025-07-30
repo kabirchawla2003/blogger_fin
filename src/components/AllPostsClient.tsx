@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Search, Filter, Calendar, Eye, Clock, ChevronDown } from 'lucide-react';
 import { format } from 'date-fns';
-import { BlogPost } from '@/lib/types'; // Import the actual type
+import { BlogPost } from '@/lib/types';
 
 interface AllPostsClientProps {
   posts: BlogPost[];
@@ -165,9 +165,14 @@ export default function AllPostsClient({ posts, categories }: AllPostsClientProp
                       </Link>
                     </h3>
 
-                    <p className="text-earth-green-600 mb-4 line-clamp-3">
-                      {post.excerpt}
-                    </p>
+                    {/* Excerpt as blockquote */}
+                    {post.excerpt && post.excerpt.trim() && (
+                      <blockquote className="excerpt-simple mb-4">
+                        <p className="text-earth-green-600 text-sm italic mb-0 line-clamp-3">
+                          {post.excerpt}
+                        </p>
+                      </blockquote>
+                    )}
 
                     <div className="flex items-center justify-between">
                       <span className="inline-block bg-sage/20 text-sage px-3 py-1 rounded-full text-sm font-medium">

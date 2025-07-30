@@ -44,7 +44,7 @@ export default function Navigation() {
               />
             </div>
             <span className="font-serif text-2xl font-bold text-earth-green-800 hidden sm:block">
-              Ghar nari
+              घर नारी
             </span>
           </Link>
 

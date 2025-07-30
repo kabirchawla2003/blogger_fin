@@ -22,44 +22,68 @@ export async function GET(request: NextRequest) {
 }
 
 // POST method - Create new post with validation
+// POST method - Create new post with enhanced debugging
+// src/app/api/admin/posts/route.ts
 export async function POST(request: NextRequest) {
+  console.log('=== POST REQUEST RECEIVED ===');
+  
   if (!validateAuth(request)) {
+    console.log('❌ Authentication failed');
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+  console.log('✅ Authentication passed');
 
   try {
     const rawPostData = await request.json();
+    console.log('=== RAW POST DATA ===');
+    console.log('Raw data:', JSON.stringify(rawPostData, null, 2));
     
     // Sanitize input
     const sanitizedData = sanitizeBlogPost(rawPostData);
+    console.log('=== AFTER SANITIZATION ===');
+    console.log('Sanitized:', JSON.stringify(sanitizedData, null, 2));
     
-    // Validate input
-    const validation = validateBlogPost({
+    // Prepare data for validation
+    const validationData = {
       ...sanitizedData,
       id: uuidv4(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       views: 0,
       isDraft: sanitizedData.status === 'draft',
-    });
+    };
+    
+    console.log('=== DATA FOR VALIDATION ===');
+    console.log('Validation data:', JSON.stringify(validationData, null, 2));
+    
+    // Validate input
+    const validation = validateBlogPost(validationData);
 
     if (!validation.success) {
+      console.log('❌ VALIDATION FAILED');
+      console.log('Validation errors:', JSON.stringify(validation.error.issues, null, 2));
+      
       return NextResponse.json({ 
         error: 'Validation failed',
         details: validation.error.issues 
       }, { status: 400 });
     }
-
+    
+    console.log('✅ Validation passed');
+    
     const posts = await DataStorage.getPosts();
     posts.push(validation.data);
     await DataStorage.savePosts(posts);
-
+    
+    console.log('✅ Post saved successfully');
     return NextResponse.json(validation.data);
   } catch (error) {
-    console.error('Error creating post:', error);
+    console.error('❌ Server error:', error);
     return NextResponse.json({ error: 'Failed to create post' }, { status: 500 });
   }
 }
+
+
 
 // PUT method - Update existing post with validation
 export async function PUT(request: NextRequest) {
